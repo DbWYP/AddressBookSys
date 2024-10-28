@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.swpuwyp.saexperiment332.mapper.ContactMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ContactResultMap" type="com.swpuwyp.saexperiment332.entity.Contact">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="phone_num" property="phoneNum" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, phone_num
+    </sql>
+
+    <insert id="addContact">
+        INSERT INTO
+            address_book (name, phone_num)
+        VALUES (#{name}, #{phone})
+    </insert>
+
+    <select id="queryContactByName" resultMap="ContactResultMap">
+        SELECT * FROM address_book WHERE name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="queryContactByPhone" resultMap="ContactResultMap">
+        SELECT * FROM address_book WHERE phone_num = #{phone}
+    </select>
+
+    <select id="queryAllContacts" resultMap="ContactResultMap">
+        SELECT
+            ab.name,
+            ab.phone_num
+        FROM
+            address_book ab
+    </select>
+
+    <delete id="deleteContact" parameterType="com.swpuwyp.saexperiment332.entity.Contact">
+        DELETE FROM address_book WHERE name = #{name} AND phone_num = #{phone}
+    </delete>
+
+    <select id="queryContactByNameAndPhone" resultMap="ContactResultMap">
+        SELECT * FROM address_book WHERE name = #{name} AND phone_num = #{phone}
+    </select>
+
+    <update id="modifyContact" >
+        UPDATE address_book
+        SET name = #{newName}, phone_num = #{newPhoneNum}
+        WHERE phone_num = #{oldInfo}
+    </update>
+</mapper>

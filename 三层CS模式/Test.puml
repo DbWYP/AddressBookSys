@@ -1,0 +1,39 @@
+@startuml
+left to right direction
+
+class UI {
+    - contactService: ContactService
+    - displayArea: JTextArea
+    - nameField: JTextField
+    - phoneField: JTextField
+    + addContact()
+    + deleteContact()
+    + queryContact()
+    + openModifyWindow()
+    + clearFields()
+}
+
+class DatabaseManager {
+    - connection: Connection
+    + addContact(name: String, phoneNum: String)
+    + queryContactByName(name: String): ResultSet
+    + queryContactByPhone(phone: String): ResultSet
+    + queryAllContacts(): ResultSet
+    + deleteContact(name: String, phoneNum: String): boolean
+    + modifyContact(oldInfo: String, newName: String, newPhoneNum: String): boolean
+    + close()
+}
+
+class ContactService {
+    - dbManager: DatabaseManager
+    + addContact(name: String, phone: String): String
+    + deleteContact(name: String, phone: String): String
+    + queryContacts(name: String, phone: String): ResultSet
+    + modifyContact(oldInfo: String, newName: String, newPhone: String): String
+    + close()
+}
+
+UI --> ContactService
+ContactService --> DatabaseManager
+
+@enduml
